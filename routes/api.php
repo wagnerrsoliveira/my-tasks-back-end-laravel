@@ -18,4 +18,5 @@ Route::post('register', 'Api\UserController@register');
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('details', 'Api\UserController@details');
+    Route::resource('tasks', 'Api\TaskController');
 });
