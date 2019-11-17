@@ -12,14 +12,14 @@ trait ApiResponser{
     }
 
     protected function errorResponse($message,$code){
-        return response()->json(['error'=>$message,'code'=>$code],$code);
+        return response()->json(['success'=> false,'error'=>$message,'code'=>$code],$code);
     }
 
     protected function showAll(Collection $collection,$code=200){
-        return $this->successResponse(['data'=>$collection],$code);
+        return $this->successResponse(['success'=> true,'data'=>$collection],$code);
     }
 
     protected function showOne(Model $model,$code=200){
-        return $this->successResponse(['data'=>$model],$code);
+        return $this->successResponse(['success'=> true,'data'=>$model],$code);
     }
 }

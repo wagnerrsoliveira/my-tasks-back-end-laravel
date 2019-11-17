@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     public $successStatus = 200;
 
@@ -49,7 +49,8 @@ class UserController extends Controller
         if(Auth::check()){
             $user = Auth::user(); 
 
-            return response()->json(['success' => $user], $this-> successStatus);
+            return $this->showOne($user);
+            
         }else{
             return response()->json(['error'=>["Usuário não autorizado"]], 401);
         }
