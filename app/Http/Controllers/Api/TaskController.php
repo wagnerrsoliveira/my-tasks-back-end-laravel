@@ -20,7 +20,7 @@ class TaskController extends ApiController
     public function index()
     {
         $user = Auth::user();
-        $tasks = Task::where('user_id',1)->get();
+        $tasks = Task::where('user_id',$user->id)->get();
 
         return $this->showAll($tasks);
     }
@@ -58,7 +58,7 @@ class TaskController extends ApiController
             
             
         $user = Auth::user();
-        $tasks = Task::where('user_id',1)->get();
+        $tasks = Task::where('user_id',$user->id)->get();
 
         return $this->showAll($tasks);
         }
@@ -72,7 +72,8 @@ class TaskController extends ApiController
      */
     public function show($id)
     {
-        $task = Task::where('user_id',1)->findOrFail($id);
+        $user = Auth::user();
+                $task = Task::where('user_id',$user->id)->findOrFail($id);
 
         return $this->showOne($task);
     }
@@ -114,7 +115,7 @@ class TaskController extends ApiController
             $task->save();
             
         $user = Auth::user();
-        $tasks = Task::where('user_id',1)->get();
+        $tasks = Task::where('user_id',$user->id)->get();
 
         return $this->showAll($tasks);
         }
@@ -128,11 +129,11 @@ class TaskController extends ApiController
      */
     public function destroy($id)
     {
-        $task = Task::where('user_id',1)->findOrFail($id);
+        $user = Auth::user();
+        $task = Task::where('user_id',$user->id)->findOrFail($id);
         $task->delete();
 
-        $user = Auth::user();
-        $tasks = Task::where('user_id',1)->get();
+        $tasks = Task::where('user_id',$user->id)->get();
 
         return $this->showAll($tasks);
     }
