@@ -57,7 +57,10 @@ class TaskController extends ApiController
             $task = Auth::user()->tasks()->create($request->all());
             
             
-            return $this->showOne($task);
+        $user = Auth::user();
+        $tasks = Task::where('user_id',1)->get();
+
+        return $this->showAll($tasks);
         }
     }
 
@@ -110,7 +113,10 @@ class TaskController extends ApiController
             $task->fill($request->all());
             $task->save();
             
-            return $this->showOne($task);
+        $user = Auth::user();
+        $tasks = Task::where('user_id',1)->get();
+
+        return $this->showAll($tasks);
         }
     }
 
@@ -125,6 +131,9 @@ class TaskController extends ApiController
         $task = Task::where('user_id',1)->findOrFail($id);
         $task->delete();
 
-        return $this->showOne($task);
+        $user = Auth::user();
+        $tasks = Task::where('user_id',1)->get();
+
+        return $this->showAll($tasks);
     }
 }
