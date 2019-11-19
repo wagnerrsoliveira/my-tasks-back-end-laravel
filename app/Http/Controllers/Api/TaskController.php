@@ -46,7 +46,7 @@ class TaskController extends ApiController
         $validator = Validator::make($request->json()->all(),
         [
             'name' => 'required|max:255',
-            'description' => 'max:255'
+            'description' => 'required|max:255'
         ]
     );
                       
@@ -100,8 +100,8 @@ class TaskController extends ApiController
     {
         $validator = Validator::make($request->json()->all(),
         [
-            'name' => 'max:255',
-            'description' => 'max:255',
+            'name' => 'required|max:255',
+            'description' => 'required|max:255',
             'status'=>'integer|between:0,3'
         ]
     );
@@ -110,14 +110,15 @@ class TaskController extends ApiController
             $errors = $validator->errors();
             return $this->errorResponse($errors,422);
         }else{
-            $task = Task::where('user_id',1)->findOrFail($id);
+            
+            $user = Auth::user();
+            $task = Task::where('user_id',$user->id)->findOrFail($id);
             $task->fill($request->all());
             $task->save();
             
-        $user = Auth::user();
-        $tasks = Task::where('user_id',$user->id)->get();
+            $tasks = Task::where('user_id',$user->id)->get();
 
-        return $this->showAll($tasks);
+            return $this->showAll($tasks);
         }
     }
 
